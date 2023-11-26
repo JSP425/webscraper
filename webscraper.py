@@ -1,11 +1,14 @@
 from bs4 import BeautifulSoup
-import requests, json
+import requests, xlsxwriter
 
 jsonDest = 'C:/Users/jpark/Desktop/testFILE.json'
 textDest=lts = 'C:/Users/jpark/Desktop/results.txt'
 
 searchTerm = "wide%20glide"
 url = f'https://vancouver.craigslist.org/search/mca?query={searchTerm}#search=1~gallery~0~0'
+
+
+
 
 
 response = requests.get(url, timeout=5)
@@ -68,3 +71,4 @@ with open(textDest,'w') as text_file:
 
 # with open(jsonDest, 'w') as file:
 #     json.dump('blahhh', file)
+
