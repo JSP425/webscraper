@@ -1,15 +1,15 @@
 from bs4 import BeautifulSoup
-import requests, xlsxwriter
+import requests
+import xlsxwriter
+import subprocess # this is for opening the file automatically after
+
 
 jsonDest = 'C:/Users/jpark/Desktop/testFILE.json'
-textDest=lts = 'C:/Users/jpark/Desktop/results.txt'
+fileDest ="C:/Users/jpark/Desktop/test.xlsx"
 
-searchTerm = "wide%20glide"
-# searchTerm = "fxdl"
+# searchTerm = "wide%20glide"
+searchTerm = "harley"
 url = f'https://vancouver.craigslist.org/search/mca?query={searchTerm}#search=1~gallery~0~0'
-
-
-
 
 
 response = requests.get(url, timeout=5)
@@ -21,12 +21,17 @@ content = BeautifulSoup(response.content, "html.parser")
 listing_items = content.findAll('li', class_='cl-static-search-result')
 
 
-workbook = xlsxwriter.Workbook('C:/Users/jpark/Desktop/test.xlsx')
+workbook = xlsxwriter.Workbook(fileDest)
 worksheet = workbook.add_worksheet(searchTerm)
 
 bold = workbook.add_format({'bold': True})
+currency_format = workbook.add_format({'num_format': '$#,##0.00'})
+worksheet.set_column('B:B', None, currency_format)
 
 # Widen
+# changing column width changes formatting from currency to custom
+# worksheet.set_column('B:B', 10)
+
 worksheet.set_column('D:D', 60)
 
 # Text with formatting.
@@ -46,7 +51,18 @@ for listing_item in listing_items:
 
     # Extract price
     price = listing_item.find('div', class_='price')
-    price = price.text.strip() if price else 'N/A'
+    # price = price.text.strip() if price else 'N/A'
+
+    # price = float(price.text.strip().replace('$', '').replace(',', '')) if price else 0.0 <-- this is equivalent to below
+    # Check if 'price' element exists
+    if price:
+        # Extract text content, strip whitespaces, remove '$' and commas, convert to float
+        cleaned_price_text = price.text.strip().replace('$', '').replace(',', '')
+        price = float(cleaned_price_text)
+    else:
+        # If 'price' element doesn't exist, default to 0.0
+        price = 0.0
+
 
     # Extract location
     location = listing_item.find('div', class_='location')
@@ -77,9 +93,11 @@ for listing_item in listing_items:
 
 worksheet.autofilter('B1:I1')
 
-
-
 workbook.close()
+
+
+subprocess.Popen(['start', 'excel', fileDest], shell=True)
+
 # with open(jsonDest, 'w') as file:
 #     json.dump('blahhh', file)
 
