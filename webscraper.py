@@ -51,8 +51,6 @@ class report():
             # self.worksheet.write(f"F{cellRow}", value[1][2])
             # self.worksheet.write(f"I{cellRow}", value[1][3])
 
-            
-            # self.worksheet.write("A1", "yo")
             self.worksheet.write(f"B{cellRow}", value[0])
             self.worksheet.write(f"D{cellRow}", value[1])
             self.worksheet.write(f"F{cellRow}", value[2])
