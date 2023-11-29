@@ -14,25 +14,6 @@ class report():
         self.cl = cl
         # print(cl,hd,kj)
     
-    # def createExcel(self, searchTerm):
-    #     workbook = xlsxwriter.Workbook(self.filedestination)
-    #     worksheet = workbook.add_worksheet(searchTerm)
-
-    #     bold = workbook.add_format({'bold': True})
-    #     currency_format = workbook.add_format({'num_format': '$#,##0.00'})
-    #     worksheet.set_column('B:B', None, currency_format)
-
-    #     # Widen
-    #     # changing column width changes formatting from currency to custom
-    #     # worksheet.set_column('B:B', 10)
-
-    #     worksheet.set_column('D:D', 60)
-
-    #     # Text with formatting.
-    #     worksheet.write('B1', 'Price', bold)
-    #     worksheet.write('D1', 'Name', bold)
-    #     worksheet.write('F1', 'Location', bold)
-    #     worksheet.write('I1', 'Link', bold)
 
     def createExcel(self, searchTerm):
         self.workbook = xlsxwriter.Workbook(self.filedestination)
@@ -56,7 +37,7 @@ class report():
 
         # self.workbook.close() <-- this will make it unwritable in funciton below. keep it open
 
-    def run(self, searchTerm):
+    def run(self, searchTerm, openauto=False):
         self.createExcel(searchTerm)
 
 
@@ -83,11 +64,7 @@ class report():
 
         self.worksheet.autofilter('B1:I1')
         self.workbook.close()
-        
 
+        if openauto == True: 
+            subprocess.Popen(['start', 'excel', self.filedestination], shell=True)
 
-# test = report("hieee")
-# test.sources(cl = ["vancouver", "abbotsford", "edmonton"])
-# # cl_search(["vancouver","abbotsford", "edmonton"],"wide%20glide")
-# # test.run("wide%20glide")
-# test.run("harley")
