@@ -2,102 +2,92 @@ from bs4 import BeautifulSoup
 import requests
 import xlsxwriter
 import subprocess # this is for opening the file automatically after
+from craigslistscraper import cl_search
 
-
-jsonDest = 'C:/Users/jpark/Desktop/testFILE.json'
-fileDest ="C:/Users/jpark/Desktop/test.xlsx"
-
-# searchTerm = "wide%20glide"
-searchTerm = "harley"
-url = f'https://vancouver.craigslist.org/search/mca?query={searchTerm}#search=1~gallery~0~0'
-
-
-response = requests.get(url, timeout=5)
-content = BeautifulSoup(response.content, "html.parser")
-
-# print(content)
-# print(response)
-
-listing_items = content.findAll('li', class_='cl-static-search-result')
-
-
-workbook = xlsxwriter.Workbook(fileDest)
-worksheet = workbook.add_worksheet(searchTerm)
-
-bold = workbook.add_format({'bold': True})
-currency_format = workbook.add_format({'num_format': '$#,##0.00'})
-worksheet.set_column('B:B', None, currency_format)
-
-# Widen
-# changing column width changes formatting from currency to custom
-# worksheet.set_column('B:B', 10)
-
-worksheet.set_column('D:D', 60)
-
-# Text with formatting.
-worksheet.write('B1', 'Price', bold)
-worksheet.write('D1', 'Name', bold)
-worksheet.write('F1', 'Location', bold)
-worksheet.write('I1', 'Link', bold)
-
-# Iterate through each <li> tag and extract relevant information
-# counter = 1
-# xlLineCounter = 0
-cellRow = 2
-for listing_item in listing_items:
+class report():
+    def __init__(self, filename) -> None:
+        self.filename = filename
+        self.filedestination = f"C:/Users/jpark/Desktop/{filename}.xlsx"
+        # self.cl = None
     
-    # Extract title
-    title = listing_item.find('div', class_='title').text.strip()
+    def sources(self, cl = [], hd = [], kj = []):
+        self.cl = cl
+        # print(cl,hd,kj)
+    
+    # def createExcel(self, searchTerm):
+    #     workbook = xlsxwriter.Workbook(self.filedestination)
+    #     worksheet = workbook.add_worksheet(searchTerm)
 
-    # Extract price
-    price = listing_item.find('div', class_='price')
-    # price = price.text.strip() if price else 'N/A'
+    #     bold = workbook.add_format({'bold': True})
+    #     currency_format = workbook.add_format({'num_format': '$#,##0.00'})
+    #     worksheet.set_column('B:B', None, currency_format)
 
-    # price = float(price.text.strip().replace('$', '').replace(',', '')) if price else 0.0 <-- this is equivalent to below
-    # Check if 'price' element exists
-    if price:
-        # Extract text content, strip whitespaces, remove '$' and commas, convert to float
-        cleaned_price_text = price.text.strip().replace('$', '').replace(',', '')
-        price = float(cleaned_price_text)
-    else:
-        # If 'price' element doesn't exist, default to 0.0
-        price = 0.0
+    #     # Widen
+    #     # changing column width changes formatting from currency to custom
+    #     # worksheet.set_column('B:B', 10)
 
+    #     worksheet.set_column('D:D', 60)
 
-    # Extract location
-    location = listing_item.find('div', class_='location')
-    location = location.text.strip() if location else 'N/A'
+    #     # Text with formatting.
+    #     worksheet.write('B1', 'Price', bold)
+    #     worksheet.write('D1', 'Name', bold)
+    #     worksheet.write('F1', 'Location', bold)
+    #     worksheet.write('I1', 'Link', bold)
 
-    link_tag = listing_item.find('a', href=True)
-    link = link_tag.get('href') if link_tag else 'N/A'
+    def createExcel(self, searchTerm):
+        self.workbook = xlsxwriter.Workbook(self.filedestination)
+        self.worksheet = self.workbook.add_worksheet(searchTerm)
 
-    # Print the extracted information
-    # text_file.write(f"Title: {title}\nPrice: {price}\nLocation: {location}\nLink: {link}\n{'-' * 30}\n")
+        bold = self.workbook.add_format({'bold': True})
+        currency_format = self.workbook.add_format({'num_format': '$#,##0.00'})
+        self.worksheet.set_column('B:B', None, currency_format)
 
-    # write into excel original format
-    # worksheet.write(xlLineCounter, 0, title)
-    # worksheet.write(xlLineCounter+1, 0, price)
-    # worksheet.write(xlLineCounter+2, 0, location)
-    # worksheet.write(xlLineCounter+3, 0, link)
-    # worksheet.write(xlLineCounter+4, 0, "")
+        # Widen
+        # changing column width changes formatting from currency to custom
+        # worksheet.set_column('B:B', 10)
 
-    # write into excel new format
-    worksheet.write(f"B{cellRow}", price)
-    worksheet.write(f"D{cellRow}", title)
-    worksheet.write(f"F{cellRow}", location)
-    worksheet.write(f"I{cellRow}", link)
+        self.worksheet.set_column('D:D', 60)
 
-    # counter +=1
-    # xlLineCounter += 5
-    cellRow += 1
+        # Text with formatting.
+        self.worksheet.write('B1', 'Price', bold)
+        self.worksheet.write('D1', 'Name', bold)
+        self.worksheet.write('F1', 'Location', bold)
+        self.worksheet.write('I1', 'Link', bold)
 
-worksheet.autofilter('B1:I1')
+        # self.workbook.close() <-- this will make it unwritable in funciton below. keep it open
 
-workbook.close()
+    def run(self, searchTerm):
+        self.createExcel(searchTerm)
 
 
-subprocess.Popen(['start', 'excel', fileDest], shell=True)
+        clResults=cl_search(self.cl, searchTerm)
+        # print(clResults)
 
-# with open(jsonDest, 'w') as file:
-#     json.dump('blahhh', file)
+        cellRow = 2
+        for value in clResults.values():
+            # self.worksheet.write(f"B{cellRow}", value[1][0])
+            # self.worksheet.write(f"D{cellRow}", value[1][1])
+            # self.worksheet.write(f"F{cellRow}", value[1][2])
+            # self.worksheet.write(f"I{cellRow}", value[1][3])
 
+            
+            # self.worksheet.write("A1", "yo")
+            self.worksheet.write(f"B{cellRow}", value[0])
+            self.worksheet.write(f"D{cellRow}", value[1])
+            self.worksheet.write(f"F{cellRow}", value[2])
+            self.worksheet.write(f"I{cellRow}", value[3])
+
+            
+            cellRow += 1
+            # print(value)
+
+        self.worksheet.autofilter('B1:I1')
+        self.workbook.close()
+        
+
+
+# test = report("hieee")
+# test.sources(cl = ["vancouver", "abbotsford", "edmonton"])
+# # cl_search(["vancouver","abbotsford", "edmonton"],"wide%20glide")
+# # test.run("wide%20glide")
+# test.run("harley")
