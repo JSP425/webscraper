@@ -5,3 +5,14 @@ This is my first webscraping project. The intention is to be able to collect tar
 The current model tests searching for bikes but is intended to work with other categories later.
 
 The commit history of this project in Git is inconsistent as I am also practicing branching/merging and initiating these actions from the terminal.
+
+# Status
+
+Currently, the webscraper is able to:
+- scrape price, title, location and link information from multiple Craigslist locations and HD dealers
+- organize search results into an Excel spreadsheet tab; the user can choose which results go into which tab 
+- automatically apply filters into the appropriate columns so the rows can be immediately sorted for analysis
+
+Things to do:
+- add kijiji functionality
+- allow user to decide search categories; currently just searching motorcycles
