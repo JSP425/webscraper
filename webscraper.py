@@ -3,15 +3,16 @@ import requests
 import xlsxwriter
 import subprocess # this is for opening the file automatically after
 from craigslistscraper import cl_search
+from dealerscraper import dl_search
 
 class report():
     def __init__(self, filename) -> None:
         self.filename = filename
         self.filedestination = f"C:/Users/jpark/Desktop/{filename}.xlsx"
-        # self.cl = None
     
-    def sources(self, cl = [], hd = [], kj = []):
+    def sources(self, cl = [], dl = [], kj = []):
         self.cl = cl
+        self.dl = dl
         # print(cl,hd,kj)
     
 
@@ -37,7 +38,7 @@ class report():
 
         # self.workbook.close() <-- this will make it unwritable in funciton below. keep it open
 
-    def run(self, searchTerm, openauto=False):
+    def runCL(self, searchTerm, openauto=False):
         self.createExcel(searchTerm)
 
 
@@ -46,10 +47,31 @@ class report():
 
         cellRow = 2
         for value in clResults.values():
-            # self.worksheet.write(f"B{cellRow}", value[1][0])
-            # self.worksheet.write(f"D{cellRow}", value[1][1])
-            # self.worksheet.write(f"F{cellRow}", value[1][2])
-            # self.worksheet.write(f"I{cellRow}", value[1][3])
+
+            self.worksheet.write(f"B{cellRow}", value[0])
+            self.worksheet.write(f"D{cellRow}", value[1])
+            self.worksheet.write(f"F{cellRow}", value[2])
+            self.worksheet.write(f"I{cellRow}", value[3])
+
+            
+            cellRow += 1
+            # print(value)
+
+        self.worksheet.autofilter('B1:I1')
+        self.workbook.close()
+
+        if openauto == True: 
+            subprocess.Popen(['start', 'excel', self.filedestination], shell=True)
+
+    def runDL(self, openauto=False):
+        self.createExcel("dealer")
+
+
+        dlResults = dl_search(self.dl)
+        # print(dlResults)
+
+        cellRow = 2
+        for value in dlResults.values():
 
             self.worksheet.write(f"B{cellRow}", value[0])
             self.worksheet.write(f"D{cellRow}", value[1])

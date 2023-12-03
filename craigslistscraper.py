@@ -5,18 +5,18 @@ import xlsxwriter
 
 searchResults = {}
 
-# locations=["vancouver","abbotsford", "edmonton"]
-# searchTerm="wide%20glide"
-
 def cl_search(locations, searchTerm):
     searchNumber = 1
     for each in locations:
         url = f'https://{each}.craigslist.org/search/mca?query={searchTerm}#search=1~gallery~0~0'
         # print(url)
+
         response = requests.get(url, timeout=5)
         content = BeautifulSoup(response.content, "html.parser")
+        # print(f"*******************{content.prettify}")
 
         listing_items = content.findAll('li', class_='cl-static-search-result')
+        # print(listing_items)
 
         for listing_item in listing_items:
             
@@ -53,5 +53,3 @@ def cl_search(locations, searchTerm):
     # print(searchResults)
     return searchResults
 
-# cl_search(locations,searchTerm)
-# print(searchResults)
