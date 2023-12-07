@@ -1,10 +1,36 @@
 # Project Explanation
 
-This is my first webscraping project. The intention is to be able to collect targeted data from sites such as Craigslist and write it into an Excel spreadsheet for analysis. The project started out as a single script but now I am making an effort to make it more modular as I experiment. This project is still in its early exploratory stages.
+This is my first webscraping project. The intention is to be able to collect targeted data from sites such as Craigslist and write it into an Excel spreadsheet for sorting and analysis. This project is still in its early exploratory stages.
 
-The current model tests searching for bikes but is intended to work with other categories later.
+The current model tests searching for bikes but is intended to work with more categories later.
 
-The commit history of this project in Git is inconsistent as I am also practicing branching/merging and initiating these actions from the terminal.
+# Design
+webscraper.py is the module that:
+- creates the Excel workbook
+- creates the tab within the workbook
+- initiates the webscraping
+- writes the scraping results into the workbook
+
+The execution of the webscraping is done in separate modules that return a dictionary of its results.
+
+The user begins by creating an instance of the report() class, which is an Excel workbook. From there, the user can use the createSearchTab() method to create a tab, name it and determine which webscraping results to populate it. The user can then open the workbook with the open() function.
+
+Quick Example
+```python
+import webscraper as ws
+
+
+new = ws.report("C:/Users/jpark/Desktop/newsearch.xlsx")
+
+new.createSearchTab("clist", categoryCode="mca", searchTerm="harley ", cl=["vancouver", "abbotsford", "edmonton", "calgary", "victoria", "nanaimo", "whistler"])
+new.createSearchTab("mtnview", dl="https://www.mountainviewhd.com/--inventory?condition=pre-owned")
+new.createSearchTab("calg", dl="https://www.calgaryharleydavidson.ca/pre-owned-harley-bikes--inventory?condition=pre-owned")
+
+new.run()
+
+```
+
+
 
 # Status
 
@@ -15,4 +41,5 @@ Currently, the webscraper is able to:
 
 Things to do:
 - add kijiji functionality
-- allow user to decide search categories; currently just searching motorcycles
+- allow user to run automatically?
+- create UI?

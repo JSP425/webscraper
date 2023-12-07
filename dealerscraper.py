@@ -3,7 +3,13 @@ import requests
 import xlsxwriter
 
 
-def dl_search(targetURL):
+def dl_search(targetURL: str) -> dict:
+    """
+    Extract HD dealership listing Info
+
+    User inputs the URL of the first page of pre-owned listings of a HD website
+    to get a dictionary isolating its model, price, location and link
+    """
 
     searchResults = {}
     searchNumber = 1

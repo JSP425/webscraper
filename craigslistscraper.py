@@ -5,10 +5,16 @@ import xlsxwriter
 
 searchResults = {}
 
-def cl_search(locations, searchTerm):
+def cl_search(locations: str, categoryCode: str ,searchTerm: str) -> dict:
+    """
+    Extract Craigslist Listing Info
+
+    User inputs the Craigslist search location and desired search term to get a dictionary
+    containing the listing's title, price, location and its link
+    """
     searchNumber = 1
     for each in locations:
-        url = f'https://{each}.craigslist.org/search/mca?query={searchTerm}#search=1~gallery~0~0'
+        url = f'https://{each}.craigslist.org/search/{categoryCode}?query={searchTerm}#search=1~gallery~0~0'
         # print(url)
 
         response = requests.get(url, timeout=5)
