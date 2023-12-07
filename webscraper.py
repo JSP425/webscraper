@@ -38,7 +38,7 @@ class report():
         # changing column width changes formatting from currency to custom
         # worksheet.set_column('B:B', 10)
 
-        targetWorksheet.set_column('D:D', 60)
+        targetWorksheet.set_column('D:D', 60.0)
 
         # Text with formatting.
         targetWorksheet.write('B1', 'Price', bold)
@@ -83,17 +83,17 @@ class report():
             dlDict = dl_search(dl)
             self.writePriceTabFormat(dlDict)
         
-
         self.worksheet.autofilter('B1:I1')
-
+        self.worksheet.set_column('D:D', 60)
         # self.workbook.close() <-- this will make it unwritable in funciton below. keep it open
     
-    def run(self):
+    def run(self, autoOpen=False):
         """
         Opens the workbook for viewing
 
         """
         self.workbook.close()
-        subprocess.Popen(['start', 'excel', self.filedestination], shell=True)
+        if autoOpen == True:
+            subprocess.Popen(['start', 'excel', self.filedestination], shell=True)
 
 

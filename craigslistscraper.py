@@ -5,7 +5,7 @@ import xlsxwriter
 
 searchResults = {}
 
-def cl_search(locations: str, categoryCode: str ,searchTerm: str) -> dict:
+def cl_search(locations: list, categoryCode: str ,searchTerm: str) -> dict:
     """
     Extract Craigslist Listing Info
 

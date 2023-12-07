@@ -7,4 +7,4 @@ new.createSearchTab("clist", categoryCode="mca", searchTerm="harley ", cl=["vanc
 new.createSearchTab("mtnview", dl="https://www.mountainviewhd.com/--inventory?condition=pre-owned")
 new.createSearchTab("calg", dl="https://www.calgaryharleydavidson.ca/pre-owned-harley-bikes--inventory?condition=pre-owned")
 
-new.run()
+new.run(autoOpen=True)

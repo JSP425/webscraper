@@ -2,9 +2,9 @@
 
 This is my first webscraping project. The intention is to be able to collect targeted data from sites such as Craigslist and write it into an Excel spreadsheet for sorting and analysis. This project is still in its early exploratory stages.
 
-The current model tests searching for bikes but is intended to work with more categories later.
+The current model searchesfor bikes but is intended to work with more categories later.
 
-# Design
+## Design
 webscraper.py is the module that:
 - creates the Excel workbook
 - creates the tab within the workbook
@@ -32,7 +32,7 @@ new.run()
 
 
 
-# Status
+## Status
 
 Currently, the webscraper is able to:
 - scrape price, title, location and link information from multiple Craigslist locations and HD dealers
@@ -40,6 +40,9 @@ Currently, the webscraper is able to:
 - automatically apply filters into the appropriate columns so the rows can be immediately sorted for analysis
 
 Things to do:
+- begin unit testing
 - add kijiji functionality
+- allow multiple HD links in []
 - allow user to run automatically?
 - create UI?
+- allow user to design column heading name and location
