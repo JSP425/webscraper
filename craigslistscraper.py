@@ -1,11 +1,12 @@
 from bs4 import BeautifulSoup
 import requests
 import xlsxwriter
-
+import time
 
 searchResults = {}
+delayValue = 2
 
-def cl_search(locations: list, categoryCode: str ,searchTerm: str) -> dict:
+def cl_search(locations: list, categoryCode: str , searchTerm: str) -> dict:
     """
     Extract Craigslist Listing Info
 
@@ -31,9 +32,7 @@ def cl_search(locations: list, categoryCode: str ,searchTerm: str) -> dict:
 
             # Extract price
             price = listing_item.find('div', class_='price')
-            # price = price.text.strip() if price else 'N/A'
 
-            # price = float(price.text.strip().replace('$', '').replace(',', '')) if price else 0.0 <-- this is equivalent to below
             # Check if 'price' element exists
             if price:
                 # Extract text content, strip whitespaces, remove '$' and commas, convert to float
@@ -55,6 +54,8 @@ def cl_search(locations: list, categoryCode: str ,searchTerm: str) -> dict:
             searchResults[searchNumber] = [price, title, location, link]
 
             searchNumber+=1
+
+        time.sleep(delayValue)
 
     # print(searchResults)
     return searchResults

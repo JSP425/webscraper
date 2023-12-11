@@ -1,5 +1,6 @@
 from craigslistscraper import cl_search
 import random
+import pytest
 
 testLocations=["vancouver", "abbotsford", "nanaimo"]
 testLocation = testLocations[0]

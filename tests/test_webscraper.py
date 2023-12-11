@@ -5,7 +5,7 @@ from openpyxl import load_workbook # to test formatting in Excel
 
 exDir = "C:/Users/jpark/Desktop/"
 
-@pytest.mark.skip(reason="temporarily skipping")
+# @pytest.mark.skip(reason="temporarily skipping")
 def test_report(random_name):
     inst = ws.report(exDir + random_name + ".xlsx")
 

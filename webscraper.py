@@ -4,6 +4,7 @@ import xlsxwriter
 import subprocess # this is for opening the file automatically after
 from craigslistscraper import cl_search
 from dealerscraper import dl_search
+from kijijiscraper import kj_search
 
 class report():
     """
@@ -82,6 +83,9 @@ class report():
         if dl:
             dlDict = dl_search(dl)
             self.writePriceTabFormat(dlDict)
+        if kj:
+            kjDict = kj_search(kj) 
+            self.writePriceTabFormat(kjDict)
         
         self.worksheet.autofilter('B1:I1')
         self.worksheet.set_column('D:D', 60)

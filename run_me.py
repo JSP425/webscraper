@@ -1,10 +1,20 @@
 import webscraper as ws
+import time
 
 
-new = ws.report("C:/Users/jpark/Desktop/newsearch.xlsx")
+saveFileTo = "C:/Users/jpark/Desktop/newsearch.xlsx"
 
-new.createSearchTab("clist", categoryCode="mca", searchTerm="harley ", cl=["vancouver", "abbotsford", "edmonton", "calgary", "victoria", "nanaimo", "whistler"])
+startTime = time.time()
+new = ws.report(saveFileTo)
+
+new.createSearchTab("clist", categoryCode="mca", searchTerm="harley", cl=["vancouver", "abbotsford", "edmonton", "calgary", "victoria", "nanaimo", "whistler"])
 new.createSearchTab("mtnview", dl="https://www.mountainviewhd.com/--inventory?condition=pre-owned")
 new.createSearchTab("calg", dl="https://www.calgaryharleydavidson.ca/pre-owned-harley-bikes--inventory?condition=pre-owned")
+new.createSearchTab("kijiji", kj="https://www.kijiji.ca/b-cars-vehicles/british-columbia/s2000/k0c27l9007")
 
 new.run(autoOpen=True)
+
+endTime = time.time()
+
+elapsedTime = endTime - startTime
+print(f"Execution took {elapsedTime} seconds")

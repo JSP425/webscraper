@@ -1,6 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 import xlsxwriter
+import time
+import scrapeutils
+
+delayValue = 2.1
 
 
 def dl_search(targetURL: str) -> dict:
@@ -15,8 +19,9 @@ def dl_search(targetURL: str) -> dict:
     searchNumber = 1
 
     # Isolate homeURL to combine with partial link later to make full link 
-    partsURL = targetURL.split('/')
-    homeURL = '/'.join(partsURL[:3])
+    # partsURL = targetURL.split('/')
+    # homeURL = '/'.join(partsURL[:3])
+    homeURL=scrapeutils.getHomeURL(targetURL)
 
     # To set up for format below
     newURL = targetURL + "&pg={}"
@@ -64,6 +69,8 @@ def dl_search(targetURL: str) -> dict:
 
         if current_page > totalPages:
             break
+
+        time.sleep(delayValue)
 
     return searchResults
 
