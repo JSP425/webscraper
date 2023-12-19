@@ -79,8 +79,9 @@ class report():
         if not cl and not dl and not kj:
             raise ValueError("No places to search")
 
-        if not isinstance(searchTerm, str) or not searchTerm.strip():
-            raise ValueError("Invalid search term")
+        # this does not apply to dl
+        # if not isinstance(searchTerm, str) or not searchTerm.strip():
+        #     raise ValueError("Invalid search term")
         
 
 

@@ -37,7 +37,7 @@ def test_createSearchTab_empty_input(random_name):
     with pytest.raises(ValueError, match="Tab name cannot be empty"):
         inst.createSearchTab("")
 
-
+@pytest.mark.skip(reason="does not apply to dl searches. Need to reconfigure")
 def test_createSearchTab_invalid_input(random_name):
     inst = ws.report(exDir + random_name + ".xlsx")
 

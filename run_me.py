@@ -10,7 +10,7 @@ new = ws.report(saveFileTo)
 new.createSearchTab("clist", categoryCode="mca", searchTerm="harley", cl=["vancouver", "abbotsford", "edmonton", "calgary", "victoria", "nanaimo", "whistler"])
 new.createSearchTab("mtnview", dl="https://www.mountainviewhd.com/--inventory?condition=pre-owned")
 new.createSearchTab("calg", dl="https://www.calgaryharleydavidson.ca/pre-owned-harley-bikes--inventory?condition=pre-owned")
-new.createSearchTab("kijiji", kj="https://www.kijiji.ca/b-cars-vehicles/british-columbia/s2000/k0c27l9007")
+new.createSearchTab("kijiji", kj="https://www.kijiji.ca/b-motorcycles/british-columbia/harley/k0c30l9007")
 
 new.run(autoOpen=True)
 
