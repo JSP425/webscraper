@@ -8,6 +8,13 @@ print(testLocation)
 testCategory = "cta"
 testSearchTerm = "Toyota%20Prius"
 
+def test_cl_search_no_results():
+    # Test when there are no search results
+    results = cl_search(["vancouver"], categoryCode="mca", searchTerm="zzz")
+    print(f'*****{results}')
+    assert isinstance(results, dict)
+    assert len(results) == 0
+
 
 def test_one_location():
     
@@ -31,8 +38,5 @@ def test_multiple_locations():
         assert isinstance(value, list), f"Value for key '{key}' is not a list: {value}"
         assert len(value) == 4, f"List for key '{key}' does not have exactly four elements: {value}"
 
-def test_cl_search_no_results():
-    pass
 
-    
 

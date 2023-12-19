@@ -52,8 +52,6 @@ class report():
         Write the contents of a dictionary into a spreadsheet
         
         """
-
-
         cellRow = 2
         for value in targetDict.values():
 
@@ -73,6 +71,18 @@ class report():
         The actual execution of the webscraping is intiated by this method.
         
         """
+
+        if not tabName:
+            print("ssssssss")
+            raise ValueError("Tab name cannot be empty")
+
+        if not cl and not dl and not kj:
+            raise ValueError("No places to search")
+
+        if not isinstance(searchTerm, str) or not searchTerm.strip():
+            raise ValueError("Invalid search term")
+        
+
 
         self.worksheet = self.workbook.add_worksheet(tabName)
         self.addPriceTabFormat(self.worksheet)
